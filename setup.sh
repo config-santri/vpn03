@@ -13,34 +13,52 @@ GRAY="\e[1;30m"
 NC='\e[0m'
 red='\e[1;31m'
 green='\e[0;32m'
-
-clear
-# // Exporint IP AddressInformation
-export IP=$( wget -qO- ipv4.icanhazip.com )
-
-# // Clear Data
-clear
-clear && clear && clear
-clear;clear;clear
-
-# // Banner
-echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "  Developer » SANTRIVPNS࿐${YELLOW}(${NC}${green} Stable Edition ${NC}${YELLOW})${NC}"
-echo -e "  » This Will Quick Setup VPN Server On Your Server"
-echo -e "  Pembuat : ${green} SANTRIVPNS࿐® ${NC}"
-echo -e "  HAK CIPTA SANTRIVPNS࿐ ${YELLOW}(${NC} 2024 ${YELLOW})${NC}"
-echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo ""
-sleep 2
-###### IZIN SC 
-
-# // Checking Os Architecture
-if [[ $( uname -m | awk '{print $1}' ) == "x86_64" ]]; then
-    echo -e "${OK} Your Architecture Is Supported ( ${green}$( uname -m )${NC} )"
+red='\e[1;31m'
+green='\e[1;32m'
+cyan='\e[1;36m'
+bgrd='\e[41m'
+# =========================================================
+# IP INDUK EXPORT
+export IP=$(wget -qO- ipv4.icanhazip.com)
+REPONG="https://raw.githubusercontent.com/config-santri/vpn03/main"
+IZINSC=$(wget -qO- ${REPONG}/Register | grep $IP | awk '{print $4}')
+# IZIN INSTALASI SCRIPT
+if [[ "${IP}" == "${IZINSC}" ]]; then
+    echo -e "${green}IP kamu ${IP} sudah terdaftar...${NC}"
+    read -rp "Tekan [ enter] untuk lanjut ! "
 else
-    echo -e "${EROR} Your Architecture Is Not Supported ( ${YELLOW}$( uname -m )${NC} )"
+    echo -e " ${cyan}≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈${NC}"
+    echo -e " ${bgrd}    TIDAK MENDAPATKAN IZIN INSTALASI SCRIPT    ${NC}"
+    echo -e " ${cyan}≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈${NC}"
+    echo -e " ${green}         SILAHKAN ORDER DULU KE ADMIN !        ${NC}"
+    echo -e "                  INFO CONTACT                  ${NC}"
+    echo -e " ${cyan}            TELEGRAM : t.me/alawivpn           ${NC}"
+    echo -e " ${green}         WHATSAPP : wa.me/6283890977190        ${NC}"
+    echo -e " ${cyan}≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈${NC}"
     exit 1
 fi
+# =========================================================
+# BANNER INTRO
+clear
+echo -e " ${cyan}≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈${NC}"
+echo -e " ${green}    INSTALASI SCRIPT TUNNELING BY: ALAWIVPN    "
+echo -e " ${cyan}≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈${NC}"
+echo -e ""
+read -rp "$(echo -e " Masukkan ${green}nama${NC} kamu di sini: ")" buyer
+clear
+echo -e ""
+echo -e " ${green}Melanjutkan sesi berikutnya...${NC}"
+sleep 3
+clear
+# =========================================================
+# CHECKING OS ARCHITECTURE
+if [[ $( uname -m | awk '{print $1}' ) == "x86_64" ]]; then
+    echo -e " ${OK} Your Architecture Is Supported ( ${green}$( uname -m )${NC} )"
+else
+    echo -e " ${EROR} Your Architecture Is Not Supported ( ${YELLOW}$( uname -m )${NC} )"
+    exit 1
+fi
+# =========================================================
 
 # // Checking System
 if [[ $( cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g' ) == "ubuntu" ]]; then
@@ -307,29 +325,35 @@ sts="${Info}"
 else
 sts="${Error}"
 fi
+# TELEGRAM GET ID & TOKEN
+ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10)
+CITY=$(curl -s ipinfo.io/city)
+OS=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
+RAM=$(free -m | awk 'NR==2 {printf "%.1f", $2/1024}')
+TIME=$(date +"%H:%M:%S")
+DATE=$(date +"%d-%m-%Y")
 TIMES="10"
 CHATID="-1002074460996"
 KEY="6920568755:AAG0yFPo_ZjgjTIThJcsMmPP54FSkLci1GQ"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
-    TIMEZONE=$(printf '%(%H:%M:%S)T')
-    TEXT="
-<code>━━━━━━━━━━━━━━━━━━━━━━━━━</code>
-<b>PREMIUM AUTOSCRIPT</b>
-<code>━━━━━━━━━━━━━━━━━━━━━━━━━</code>
-<code>User     :</code><code>$username</code>
-<code>Domain   :</code><code>$domain</code>
-<code>IPVPS    :</code><code>$MYIP</code>
-<code>ISP      :</code><code>$ISP</code>
-<code>DATE     :</code><code>$DATE</code>
-<code>Time     :</code><code>$TIMEZONE</code>
-<code>Exp Sc.  :</code><code>$exp</code>
-<code>━━━━━━━━━━━━━━━━━━━━━━━━━</code>
-<b>CONFIG-SANTRI࿐</b>
-<code>━━━━━━━━━━━━━━━━━━━━━━━━━</code>
-<i>Automatic Notifications From Github</i>
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ","url":"https://wa.me/+6281226229275"}]]}' 
-
-    curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+TIMEZONE=$(printf '%(%H:%M:%S)T')
+TEXT="
+━━━━━━━━━━━━━━━━━━━━━━━
+<b>☘️ PREMIUM SCRIPT INSTALLED ☘️</b>
+━━━━━━━━━━━━━━━━━━━━━━━
+☘️ » <b>User  :</b> <code>${buyer}</code>
+☘️ » <b>IP  :</b> <code>${MYIP}</code>
+☘️ » <b>Domain  :</b> <code>${domain}</code>
+☘️ » <b>ISP  :</b> <code>${ISP}</code>
+☘️ » <b>CITY :</b> <code>${CITY}</code>
+☘️ » <b>OS  :</b> <code>${OS}</code>
+☘️ » <b>RAM  :</b> <code>${RAM} GB</code>
+☘️ » <b>TIME  :</b> <code>${TIME}, ${DATE}</code>
+☘️ » <b>Expired :</b> <code>${exp}</code>
+━━━━━━━━━━━━━━━━━━━━━━━
+<i>Auto Notification Before Installed...</i>
+"'&reply_markup={"inline_keyboard":[[{"text":"☘️ ORDER","url":"https://t.me/alawivpn"},{"text":"ORDER ☘️","url":"https://t.me/muslimvpn"}]]}'
+curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 clear
 # Pasang SSL
